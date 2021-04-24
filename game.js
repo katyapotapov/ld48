@@ -13,83 +13,86 @@ const CURSOR_H = 10;
 const CURSOR_COL = "#fff";
 
 function setupCanvas() {
-  canvas = document.getElementById("canvas");
-  ctx = canvas.getContext("2d");
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
 
-  function resizeCanvas() {
-    canvas.height = window.innerHeight;
-  }
+    function resizeCanvas() {
+        canvas.height = window.innerHeight;
+    }
 
-  window.addEventListener("resize", resizeCanvas, false);
+    window.addEventListener("resize", resizeCanvas, false);
 
-  resizeCanvas();
+    resizeCanvas();
 }
 
 function fillRect(x, y, w, h, col = "#fff") {
-  ctx.fillStyle = col;
-  ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = col;
+    ctx.fillRect(x, y, w, h);
 }
 
 function attachMouseListener() {
-  canvas.addEventListener("mousemove", (event) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
-  });
+    canvas.addEventListener("mousemove", (event) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = event.clientX - rect.left;
+        mouseY = event.clientY - rect.top;
+    });
 }
 
 // Data must be supplied as [x0, y0, x1, y1, x2, y2, ...]
 function fillLine(data, col = "#fff", thickness = 1) {
-  ctx.strokeStyle = col;
-  ctx.lineWidth = thickness;
+    ctx.strokeStyle = col;
+    ctx.lineWidth = thickness;
 
-  ctx.beginPath();
+    ctx.beginPath();
 
-  for (let i = 0; i < data.length; i += 2) {
-    const x = data[i];
-    const y = data[i + 1];
+    for (let i = 0; i < data.length; i += 2) {
+        const x = data[i];
+        const y = data[i + 1];
 
-    if (i > 0) {
-      ctx.lineTo(x, y);
-    } else {
-      ctx.moveTo(x, y);
+        if (i > 0) {
+            ctx.lineTo(x, y);
+        } else {
+            ctx.moveTo(x, y);
+        }
     }
-  }
 
-  ctx.stroke();
+    ctx.stroke();
 }
 
 function drawStars() {}
 
 function drawCursor() {
-  const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20, 0, 0].map((elem, ind) => {
-    return ind % 2 ? elem + CURSOR_Y : elem + mouseX;
-  });
-  fillLine(cursorCoords);
+    const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20, 0, 0].map((elem, ind) =>
+        ind % 2 ? elem + CURSOR_Y : elem + mouseX
+    );
+
+    fillLine(cursorCoords);
 }
 
 function render() {
-  // Update elapsed time
-  const curTime = new Date();
+    // Update elapsed time
+    const curTime = new Date();
 
-  timeElapsedSeconds += (curTime - lastFrameTime) / 1000;
-  lastFrameTime = curTime;
+    timeElapsedSeconds += (curTime - lastFrameTime) / 1000;
+    lastFrameTime = curTime;
 
-  // Fill background
-  fillRect(0, 0, canvas.width, canvas.height, "#000");
-  drawCursor();
-  console.log(mouseX);
-  console.log(mouseY);
+    // Fill background
+    fillRect(0, 0, canvas.width, canvas.height, "#000");
 
-  console.log(timeElapsedSeconds);
+    drawCursor();
 
-  window.requestAnimationFrame(render);
+    console.log(mouseX);
+    console.log(mouseY);
+
+    console.log(timeElapsedSeconds);
+
+    window.requestAnimationFrame(render);
 }
 
 function init() {
-  setupCanvas();
-  attachMouseListener();
-  render();
+    setupCanvas();
+    attachMouseListener();
+    render();
 }
 
 window.addEventListener("load", init);
