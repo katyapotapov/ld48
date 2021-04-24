@@ -63,7 +63,7 @@ function drawStars() {}
 
 function drawCursor() {
     const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20, 0, 0].map((elem, ind) =>
-        ind % 2 ? elem + CURSOR_Y : elem + mouseX
+        ind % 2 ? elem + CURSOR_Y : elem + mouseX - 15
     );
 
     fillLine(cursorCoords);
