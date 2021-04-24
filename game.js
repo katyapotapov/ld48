@@ -4,6 +4,11 @@ let ctx = null;
 let mouseX = 0;
 let mouseY = 0;
 
+const CURSOR_Y = 200;
+const CURSOR_W = 10;
+const CURSOR_H = 10;
+const CURSOR_COL = "#fff";
+
 function setupCanvas() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
@@ -22,8 +27,8 @@ function fillRect(x, y, w, h, col = "#fff") {
     ctx.fillRect(x, y, w, h);
 }
 
-function drawCursor(w = 10, h = 10, y = 100, col = "#fff") {
-    fillRect(mouseX, y, w, h, col);
+function drawCursor() {
+    fillRect(mouseX, CURSOR_Y, CURSOR_W, CURSOR_H, CURSOR_COL);
 }
 
 function attachMouseListener() {
