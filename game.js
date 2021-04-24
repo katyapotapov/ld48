@@ -23,7 +23,7 @@ function fillRect(x, y, w, h, col = "#fff") {
 }
 
 function drawRectAtMouse(w = 10, h = 10, col = "#fff") {
-    fillRect(mouseX, mouseY, w, h, col)
+    fillRect(mouseX, mouseY, w, h, col);
 }
 
 function attachMouseListener() {
