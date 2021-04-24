@@ -4,6 +4,9 @@ let ctx = null;
 let mouseX = 0;
 let mouseY = 0;
 
+let lastFrameTime = new Date();
+let timeElapsedSeconds = 0;
+
 const CURSOR_Y = 200;
 const CURSOR_W = 10;
 const CURSOR_H = 10;
@@ -60,10 +63,21 @@ function fillLine(data, col = "#fff", thickness = 1) {
     ctx.stroke();
 }
 
+function drawStars() {
+}
+
 function render() {
+    // Update elapsed time
+    const curTime = new Date();
+
+    timeElapsedSeconds += (curTime - lastFrameTime) / 1000;
+    lastFrameTime = curTime;
+
     // Fill background
     fillRect(0, 0, canvas.width, canvas.height, "#000"); 
     drawCursor();
+
+    console.log(timeElapsedSeconds);
 
     window.requestAnimationFrame(render);
 }
