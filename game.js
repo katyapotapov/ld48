@@ -39,7 +39,7 @@ function attachMouseListener() {
 }
 
 // Data must be supplied as [x0, y0, x1, y1, x2, y2, ...]
-function fillLine(data, col = "#fff", thickness = 1) {
+function fillLine(data, col = "#fff", thickness = 1, closePath = false) {
     ctx.strokeStyle = col;
     ctx.lineWidth = thickness;
 
@@ -56,17 +56,21 @@ function fillLine(data, col = "#fff", thickness = 1) {
         }
     }
 
+    if (closePath) {
+        ctx.closePath();
+    }
+
     ctx.stroke();
 }
 
 function drawStars() {}
 
 function drawCursor() {
-    const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20, 0, 0].map((elem, ind) =>
+    const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20].map((elem, ind) =>
         ind % 2 ? elem + CURSOR_Y : elem + mouseX - 15
     );
 
-    fillLine(cursorCoords);
+    fillLine(cursorCoords, "#fff", 2, true);
 }
 
 function render() {
