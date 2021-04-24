@@ -70,13 +70,16 @@ function fillLine(data, col = "#fff", thickness = 1, closePath = false) {
     ctx.stroke();
 }
 
-function generateStarData(xCount, yCount) {
+function generateStarData(xCount, yCount, thickness) {
     let data = [];
-    
-    for(let y = 0; y < yCount; ++y) {
-        for(let x = 0; x < xCount; ++x) {
-            data.push(x * (canvas.width / xCount) + Math.random() * 100 - 50 + 40);
-            data.push(y * (canvas.height / yCount) + Math.random() * 100 - 50); 
+
+    for (let y = 0; y < yCount; ++y) {
+        for (let x = 0; x < xCount; ++x) {
+            data.push({
+                x: x * (canvas.width / xCount) + Math.random() * 100 - 50 + 40,
+                y: y * (canvas.height / yCount) + Math.random() * 100 - 50,
+                t: thickness,
+            });
         }
     }
 
@@ -84,17 +87,14 @@ function generateStarData(xCount, yCount) {
 }
 
 function drawStarLayer(data, speed, col) {
-    for(let i = 0; i < data.length; i += 2) {
-        const x = data[i];
+    for (const star of data) {
+        const x = star.x;
 
-        let y = Math.round(data[i + 1] - timeElapsedSeconds * speed);
+        let y = Math.round(star.y - timeElapsedSeconds * speed);
 
         y = ((y % canvas.height) + canvas.height) % canvas.height;
 
-        fillLine([
-            x, y,
-            x, y + 10
-        ], col);
+        fillLine([x, y, x, y + 10], col, star.t);
     }
 }
 
@@ -136,9 +136,13 @@ function render() {
 function init() {
     setupCanvas();
     attachMouseListener();
-    
-    starData = generateStarData(STARS_X, STARS_Y);
-    starData2 = generateStarData(Math.floor(STARS_X * 1.25), Math.floor(STARS_Y * 1.25));
+
+    starData = generateStarData(STARS_X, STARS_Y, 1);
+    starData2 = generateStarData(
+        Math.floor(STARS_X * 1.25),
+        Math.floor(STARS_Y * 1.25),
+        1
+    );
 
     render();
 }
