@@ -58,11 +58,6 @@ function fillLine(data, col = "#fff", thickness = 1) {
 function render() {
     // Fill background
     fillRect(0, 0, canvas.width, canvas.height, "#000"); 
-
-    fillLine([
-        0, 0,
-        100, 100
-    ], "#fff", 4);
     drawCursor();
 
     window.requestAnimationFrame(render);
