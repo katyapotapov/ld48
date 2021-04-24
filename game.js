@@ -22,6 +22,10 @@ function fillRect(x, y, w, h, col = "#fff") {
     ctx.fillRect(x, y, w, h);
 }
 
+function drawRectAtMouse(w = 10, h = 10, col = "#fff") {
+    fillRect(mouseX, mouseY, w, h, col)
+}
+
 function attachMouseListener() {
     canvas.addEventListener("mousemove", (event) => {
         const rect = canvas.getBoundingClientRect();
@@ -59,6 +63,7 @@ function render() {
         0, 0,
         100, 100
     ], "#fff", 4);
+    drawRectAtMouse();
 
     window.requestAnimationFrame(render);
 }
