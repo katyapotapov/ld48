@@ -30,10 +30,6 @@ function fillRect(x, y, w, h, col = "#fff") {
     ctx.fillRect(x, y, w, h);
 }
 
-function drawCursor() {
-    fillRect(mouseX, CURSOR_Y, CURSOR_W, CURSOR_H, CURSOR_COL);
-}
-
 function attachMouseListener() {
     canvas.addEventListener("mousemove", (event) => {
         const rect = canvas.getBoundingClientRect();
@@ -66,6 +62,23 @@ function fillLine(data, col = "#fff", thickness = 1) {
 function drawStars() {
 }
 
+function drawCursor() {
+    const cursorCoords = [
+        0, 0, 
+        15, 50, 
+        30, 0, 
+        15, 20, 
+        0, 0
+    ]
+        .map(
+            (elem, ind) => {
+                return ind % 2 ? elem + CURSOR_Y : elem + mouseX;
+            }
+        )
+    fillLine(cursorCoords);
+}
+
+
 function render() {
     // Update elapsed time
     const curTime = new Date();
@@ -76,6 +89,8 @@ function render() {
     // Fill background
     fillRect(0, 0, canvas.width, canvas.height, "#000"); 
     drawCursor();
+    console.log(mouseX);
+    console.log(mouseY);
 
     console.log(timeElapsedSeconds);
 
