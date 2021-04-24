@@ -7,10 +7,17 @@ let mouseY = 0;
 let lastFrameTime = new Date();
 let timeElapsedSeconds = 0;
 
+let starData = [];
+let starData2 = [];
+
 const CURSOR_Y = 200;
-const CURSOR_W = 10;
-const CURSOR_H = 10;
-const CURSOR_COL = "#fff";
+const CURSOR_COL = "#ff3392";
+
+const STARS_X = 10;
+const STARS_Y = 10;
+
+const STAR_COL = "#ffbb32";
+const STAR_2_COL = "#e66c06";
 
 function setupCanvas() {
     canvas = document.getElementById("canvas");
@@ -63,14 +70,45 @@ function fillLine(data, col = "#fff", thickness = 1, closePath = false) {
     ctx.stroke();
 }
 
-function drawStars() {}
+function generateStarData(xCount, yCount) {
+    let data = [];
+    
+    for(let y = 0; y < yCount; ++y) {
+        for(let x = 0; x < xCount; ++x) {
+            data.push(x * (canvas.width / xCount) + Math.random() * 100 - 50 + 40);
+            data.push(y * (canvas.height / yCount) + Math.random() * 100 - 50); 
+        }
+    }
+
+    return data;
+}
+
+function drawStarLayer(data, speed, col) {
+    for(let i = 0; i < data.length; i += 2) {
+        const x = data[i];
+
+        let y = Math.round(data[i + 1] - timeElapsedSeconds * speed);
+
+        y = ((y % canvas.height) + canvas.height) % canvas.height;
+
+        fillLine([
+            x, y,
+            x, y + 10
+        ], col);
+    }
+}
+
+function drawStars() {
+    drawStarLayer(starData2, 600, STAR_2_COL);
+    drawStarLayer(starData, 1000, STAR_COL);
+}
 
 function drawCursor() {
     const cursorCoords = [0, 0, 15, 50, 30, 0, 15, 20].map((elem, ind) =>
         ind % 2 ? elem + CURSOR_Y : elem + mouseX - 15
     );
 
-    fillLine(cursorCoords, "#fff", 2, true);
+    fillLine(cursorCoords, CURSOR_COL, 2, true);
 }
 
 function render() {
@@ -81,7 +119,9 @@ function render() {
     lastFrameTime = curTime;
 
     // Fill background
-    fillRect(0, 0, canvas.width, canvas.height, "#000");
+    fillRect(0, 0, canvas.width, canvas.height, "#122d68");
+
+    drawStars();
 
     drawCursor();
 
@@ -96,6 +136,10 @@ function render() {
 function init() {
     setupCanvas();
     attachMouseListener();
+    
+    starData = generateStarData(STARS_X, STARS_Y);
+    starData2 = generateStarData(Math.floor(STARS_X * 1.25), Math.floor(STARS_Y * 1.25));
+
     render();
 }
 
