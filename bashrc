@@ -1,0 +1,10 @@
+alias gs='git status'
+alias gco='git checkout'
+alias gc='git commit'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gl='git log --pretty=oneline'
+alias gbv='git branch -v'
+alias gpll='git pull'
+alias gpsh='git push'
+
