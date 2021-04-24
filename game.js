@@ -30,10 +30,35 @@ function attachMouseListener() {
     });
 }
 
+// Data must be supplied as [x0, y0, x1, y1, x2, y2, ...]
+function fillLine(data, col = "#fff", thickness = 1) {
+    ctx.strokeStyle = col;
+    ctx.lineWidth = thickness;
+
+    ctx.beginPath();
+
+    for(let i = 0; i < data.length; i += 2) {
+        const x = data[i];
+        const y = data[i + 1];
+
+        if(i > 0) {
+            ctx.lineTo(x, y);
+        } else {
+            ctx.moveTo(x, y);
+        }
+    }
+
+    ctx.stroke();
+}
+
 function render() {
     // Fill background
     fillRect(0, 0, canvas.width, canvas.height, "#000"); 
-    console.log(mouseX, mouseY);
+
+    fillLine([
+        0, 0,
+        100, 100
+    ], "#fff", 4);
 
     window.requestAnimationFrame(render);
 }
